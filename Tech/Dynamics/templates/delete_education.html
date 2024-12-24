@@ -1,0 +1,10 @@
+<h2>¿Seguro que quieres eliminar esta educación?</h2>
+
+<p><strong>{{ education.degree }}</strong> en <em>{{ education.school }}</em></p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Eliminar</button>
+</form>
+
+<a href="{% url 'profile' %}">Cancelar</a>

@@ -1,0 +1,14 @@
+<!-- templates/add_education.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="mai">
+
+<h2>Add Education</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Add Education</button>
+</form>
+</main>
+{% endblock %}

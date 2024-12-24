@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="mai">
+
+<!-- Notificación emergente -->
+<div id="notification" class="notification" style="display: none;">Actividad reportada exitosamente.</div>
+
+    <div class="container mt-4">
+        <h2>Mi Historial de Actividades</h2>
+
+        <div class="user-info mb-4">
+            <h3>{{ user.get_full_name }}</h3>
+            <p>Email: {{ user.email }}</p>
+            <p>Teléfono: {{ user.telefono }}</p>
+            <p>Rol: {{ user.get_rol_display }}</p>
+        </div>
+        
+        <div class="list-group">
+            {% for activity in activities %}
+                <div class="list-group-item">
+                    {% if activity.type == 'Solicitud' %}
+                        <h5 class="mb-1">Solicitud: {{ activity.titulo }}</h5>
+                        <p class="mb-1">{{ activity.descripcion|truncatewords:20 }}</p>
+                        <p>Estado: {{ activity.estado }}</p>
+                        <p>Progreso: {{ activity.progreso }}</p>
+                        {% if activity.precio %}
+                            <p>Precio acordado: ${{ activity.precio }}</p>
+                        {% endif %}
+                        <small class="text-muted">Fecha: {{ activity.fecha }}</small>
+                        <!-- Opción para iniciar chat -->
+                        <button class="action-button report-button" onclick="showReportModal()">Reportar</button>
+                        <button class="action-button chat-button" onclick="showChatModal()">Chat</button>
+                        {% elif activity.type == 'Message' %}
+                        <!-- Aquí puedes manejar otros tipos de actividad si es necesario -->
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No hay actividades registradas.</p>
+            {% endfor %}
+            
+            {% if activities.has_next %}
+                <a href="?page={{ activities.next_page_number }}">Ver más</a>
+            {% endif %}
+        </div>
+<!-- Modal para reporte -->
+<div class="modal" id="reportModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Reportar actividad</h3>
+        <button class="close-modal" onclick="closeReportModal()">&#x2715;</button>
+      </div>
+      <form>
+        <label for="reportReason">Razón del reporte:</label>
+        <textarea id="reportReason" rows="4" placeholder="Describe el problema aquí..."></textarea>
+        <div class="file-upload" onclick="uploadFile()">Sube un archivo (opcional)</div>
+        <button type="submit" class="action-button report-button">Enviar Reporte</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Modal para chat -->
+  <div class="chat-modal" id="chatModal">
+    <div class="chat-container">
+      <div class="chat-header">
+        <span>Chat con soporte</span>
+        <button class="close-modal" onclick="closeChatModal()">&#x2715;</button>
+      </div>
+      <div class="chat-messages">
+        <!-- Mensajes del chat aparecerán aquí -->
+         
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Escribe un mensaje...">
+        <button onclick="sendMessage()">Enviar</button>
+      </div>
+    </div>
+  </div>
+    </div>
+
+
+
+</main>
+{% endblock %}

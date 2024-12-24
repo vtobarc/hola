@@ -1,0 +1,364 @@
+{% load static %}
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TechVanguard{% endblock %}</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"> <!-- Ruta a tu archivo CSS -->
+    <link rel="stylesheet" href="{% static 'css/general.css' %}">
+    <link rel="stylesheet" href="{% static 'css/in-styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/clientes.css' %}"> <!-- Ruta a tu archivo CSS -->
+    <link rel="stylesheet" href="{% static 'css/servidor_sol_detalle.css' %}"> <!-- Ruta a tu archivo CSS -->
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}"> <!-- Ruta a tu archivo CSS -->
+    <link rel="stylesheet" href="{% static 'css/historial.css' %}"> <!-- Ruta a tu archivo CSS -->
+    <link rel="stylesheet" href="{% static 'css/profile_config.css' %}"> <!-- Ruta a tu archivo CSS -->
+    <link rel="stylesheet" href="{% static 'css/messaging.css' %}">
+    <link rel="stylesheet" href="{% static 'css/messaging-system.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ia.css' %}">
+
+    <!-- External CSS libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@lucide-icons/react@0.6.2/dist/lucide.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  
+  
+
+              
+<body>
+
+
+
+
+
+
+
+
+    <!-- Header -->
+   
+    <header class="header">
+
+      <div class="container">
+        <a href="{% url 'home' %}" class="logo">
+          <img src="{% static 'img/logo3.png' %}" alt="Logo de TechVanguard">
+        </a>
+          <button id="menu-toggle" class="block md:hidden text-black focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+          </button>
+          
+          <nav id="nav-menu" class="navigation">
+              <a href="{% url 'home' %}" class="nav-link"><i class="fas fa-home"></i> Inicio</a>
+              
+              {% if user.is_authenticated %}
+                  {% if user.rol != 'Servidor' %}
+                      <a href="{% url 'pagina_cliente' %}" class="nav-link"><i class="fas fa-users"></i> Clientes</a>
+                  {% endif %}
+                  
+                  {% if user.rol == 'Servidor' %}
+                      <a href="{% url 'prestadores_dashboard' %}" class="nav-link"><i class="fas fa-cogs"></i> Prestadores</a>
+                  {% endif %}
+                  <!--a href="{% url 'profile' %}" class="nav-link"><i class="fas fa-user"></i> Perfil</a-->
+                  <!--a href="{% url 'historial' %}" class="nav-link"><i class="fas fa-history"></i> Historial</a-->
+              {% endif %}
+              
+              <a href="#" class="nav-link"><i class="fas fa-info-circle"></i> Nosotros</a>
+              <a href="{% url 'servicios' %}" class="nav-link"><i class="fas fa-briefcase"></i> Servicios</a>
+             
+              {% if user.is_authenticated %}
+                  <!--a href="{% url 'logout' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a-->
+                  <button id="theme-toggle" class="theme-toggle">
+                    <!--i class="fas fa-sun"></i-->
+                </button>
+                
+
+                                  <!-- Icono de Notificaciones -->
+              <div class="icon-container">
+
+                  <div class="notification-icon nav-link">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                    <div class="dropdown" id="notifications-dropdown">
+                        <div class="modal-header">
+                            Notificaciones
+                            <span class="dropdown-close">&#x2715;</span>
+                        </div>
+                        <div class="notification-item" data-id="1">
+                            <strong>Nueva actualización</strong>
+                            <p>Se ha lanzado una nueva versión de la app</p>
+                        </div>
+                        <div class="notification-item" data-id="2">
+                            <strong>Recordatorio</strong>
+                            <p>Tienes una reunión en 30 minutos</p>
+                        </div>
+                        <div class="notification-item" data-id="3">
+                            <strong>¡Oferta especial!</strong>
+                            <p>50% de descuento en servicios premium</p>
+                        </div>
+                        <div class="view-more">Ver más</div>
+                    </div>
+                  </div>
+
+                  <!-- Icono de Mensajes -->
+                  <div class="message-icon nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge">2</span>
+                    <div class="dropdown" id="messages-dropdown">
+                        <div class="modal-header">
+                            Mensajes
+                            <span class="dropdown-close">&#x2715;</span>
+                        </div>
+                        <div class="message-item">
+                            <strong>Juan Pérez</strong>
+                            <p>¿Hola, cómo estás?</p>
+                        </div>
+                        <div class="message-item">
+                            <strong>María García</strong>
+                            <p>¿Nos vemos mañana?</p>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+
+              
+            
+
+
+              {% else %} 
+                  <a href="{% url 'login' %}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Iniciar sesión o Registrarse</a>
+              {% endif %}
+              
+              
+
+
+
+              {% if user.is_authenticated %}
+
+              <div class="profile-wrapper">
+                  <button id="profile-btn" class="profile-button">
+                    {% if user.foto_perfil %}
+                    <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" class="profile-image">
+                {% else %}
+                    <img src="{% static 'img/placeholder.svg' %}" alt="Profile" class="profile-image">
+                    {% endif %}
+                  
+                  </button>
+
+
+                  <div id="profile-dropdown" class="profile-dropdown">
+                      <div class="profile-header">
+                          <p class="username">{{ user.first_name }}</p>
+                          <p class="email">{{ user.email }}</p>
+                      </div>
+                      <div class="profile-menu">
+                        <a class="nav-link" href="{% url 'profile' %}">
+                          <i class="fas fa-user"></i> My Profile
+                      </a>
+                          
+                        <a class="nav-link" href="">
+                          <i class="fas fa-cog"></i> Settings
+                      </a>
+                      <a href="{% url 'historial' %}" class="nav-link">
+                        <i class="fas fa-history"></i> Historial</a>
+
+                          <div class="divider"></div>
+                          <a class="nav-link" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                  </div>
+                  <div class="profile-footer">
+                   
+                </div>
+              </div>
+                  {% endif %}
+              </div>
+          </nav>
+          <div class="overlay" id="overlay"></div>
+
+    <div class="notification-detail" id="notification-detail">
+        <span class="close-detail" id="close-detail">&#x2715;</span>
+        <h2 id="detail-title"></h2>
+        <p id="detail-content"></p>
+        <div id="detail-extra" style="margin-top: 1rem;"></div>
+    </div>
+
+   
+
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <span>Chat con Juan P&#xe9;rez</span>
+            <span style="cursor: pointer" id="close-chat">&#x2715;</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message received">
+                &#xa1;Hola! &#xbf;C&#xf3;mo est&#xe1;s?
+            </div>
+            <div class="message sent">
+                &#xa1;Muy bien! &#xbf;Y t&#xfa;?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Escribe un mensaje..." id="message-input">
+            <button id="send-message">
+              <i class="fas fa-arrow-right"></i> <!-- Aquí el ícono de la flecha -->
+          </button>
+            
+          </div>
+    </div>
+
+
+
+   <!-- Floating Chat Button -->
+   <button class="floating-chat-button" id="chatButton">
+    <svg viewBox="0 0 24 24">
+      <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+    </svg>
+    Asistente Virtual
+  </button>
+  
+  <!-- Chat Window -->
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <h3 style="margin: 0">Asistente Virtual</h3>
+      <button onclick="toggleChat()" style="background: none; border: none; color: white; cursor: pointer">
+        ✕
+      </button>
+    </div>
+    
+    <div class="chat-messages" id="chatMessages">
+      <div class="message bot-message">
+        ¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?
+      </div>
+    </div>
+    
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Escribe tu mensaje..." onkeypress="handleKeyPress(event)">
+      
+      <button onclick="sendMessage()"
+        <i class="fas fa-arrow-right"></i> <!-- Aquí el ícono de la flecha -->
+    </button>
+      
+    </div>
+  </div>
+      </div>
+  </header>
+  
+    
+    <main>
+        {% block content %}
+        
+        {% endblock %}
+    </main>
+    
+
+     <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>TechVanguard</h3>
+          <p>Conectando usuarios con profesionales de confianza desde 2024.</p>
+        </div>
+        <div class="footer-section">
+          <h3>Enlaces Rápidos</h3>
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#sobre-nosotros">Sobre Nosotros</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Síguenos</h3>
+          <div class="social-icons">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 TechVanguard. Todos los derechos reservados.</p>
+        <p>Desarrollado por <a href="#">TaskForge Dynamics</a></p>
+      </div>
+    </div>
+  </footer>
+  
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/cliente.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
+<script src="{% static 'js/profile_config.js' %}"></script>
+<script src="{% static 'js/servidor.js' %}"></script>
+<!-- Bootstrap JS y dependencias -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide-icons@0.1.3/dist/lucide.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/messaging.js' %}"></script>
+<script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JavaScript -->
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/cliente.js' %}"></script>
+<script src="{% static 'js/profile.js' %}"></script>
+<script src="{% static 'js/profile_config.js' %}"></script>
+<script src="{% static 'js/servidor.js' %}"></script>
+<script src="{% static 'js/messaging.js' %}"></script>
+<script src="{% static 'js/message.js' %}"></script>
+<script src="{% static 'js/ia.js' %}"></script>
+<script src="{% static 'js/historial.js'%}"></script>
+  
+
+<!-- External JS libraries -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide-icons@0.1.3/dist/lucide.js"></script>
+<script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+
+
+
+<script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+
+
+
+  <script type="text/babel">
+    function renderMessagingSystem() {
+      ReactDOM.render(
+        <MessagingSystem />,
+        document.getElementById('messaging-system')
+      );
+    }
+  </script>
+
+  
+
+<!--script>
+ 
+</script-->
+
+</body>
+</html>
